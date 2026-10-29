@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Élément racine -->
+    <xs:element name="breakfast_menu">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- L'élément food est répétable (maxOccurs="unbounded") -->
+                <xs:element name="food" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- J'ai ajouté name qui est standard, même s'il n'est pas cité dans les contraintes -->
+                            <xs:element name="name" type="xs:string"/>
+                            
+                            <!-- Contrainte 1 : Price -->
+                            <xs:element name="price">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:decimal">
+                                            <!-- Attribut unit obligatoire -->
+                                            <xs:attribute name="unit" type="xs:string" use="required"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                                <!-- La vérification du > 0 et du format XX.XX se fait via un type complexe personnalisé en dessous, mais pour simplifier on peut mettre les restrictions ici -->
+                            </xs:element>
+                            
+                            <!-- Contrainte 2 : Calories -->
+                            <xs:element name="calories">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:integer">
+                                        <xs:minInclusive value="100"/>
+                                        <xs:maxInclusive value="2000"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            
+                            <!-- Contrainte 3 : Category -->
+                            <xs:element name="category">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="sweet"/>
+                                        <xs:enumeration value="salty"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
